@@ -1,6 +1,6 @@
-button,
-button:active,
-button:focus {
+.button,
+.button:active,
+.button:focus {
     outline: none;
 }
 
