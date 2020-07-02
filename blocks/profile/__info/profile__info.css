@@ -1,0 +1,10 @@
+.profile__info {
+    min-height: 77px;
+    padding: 15px 0 0 30px;
+}
+
+@media(max-width:760px) {
+    .profile__info {
+        padding-left: 0;
+    }
+}
