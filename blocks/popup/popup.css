@@ -3,8 +3,6 @@
 @import url("../popup/__text/popup__text.css");
 @import url("../popup/__input/popup__input.css");
 @import url("../popup/__close-button/popup__close-button.css");
-@import url("../popup/_closed/popup_closed.css");
-@import url("../popup/_opened/popup_opened.css");
 .popup {
     position: fixed;
     top: 0;
@@ -12,4 +10,5 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, .5);
+    display: none;
 }

@@ -1,5 +1,13 @@
 .header {
-    width: 100%;
+    box-sizing: border-box;
+    margin: auto;
+    max-width: 882px;
+    padding: 45px 0 41px;
     border-bottom: solid #545454 1px;
-    min-height: 74px;
+}
+
+@media (max-width:920px) {
+    .header {
+        padding: 28px 27px 32px;
+    }
 }

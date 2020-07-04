@@ -12,82 +12,79 @@
 </head>
 
 <body class="body">
+    <header class="header">
+        <img class="logo" alt="Место в России" src="images/logo.svg">
+    </header>
     <main class="content">
-        <header class="header">
-            <img class="logo" alt="Место в России" src="images/logo.svg">
-        </header>
         <section class="profile">
             <img src="./images/avatar.jpg" alt="фото профиля" class="profile__avatar">
             <div class="profile__info">
-                <p class="profile__name">Жак-Ив Кусто</p>
-                <button class="button profile__edit-button"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.5" y="0.5" width="23" height="23" stroke="white"/>
-                    <path d="M17 8.32827L9.60377 15.7666L8.28302 14.4194L15.6604 7L17 8.32827ZM7 17L8.96226 16.4118L7.58491 15.0835L7 17Z" fill="white"/>
-                    </svg>
-                </button>
+                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                <button class="button profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
                 <p class="profile__occupation">Исследователь океана</p>
             </div>
-            <button class="button profile__add-button"></button>
+            <button class="button profile__add-button" type="button" aria-label="Добавить"></button>
 
         </section>
-        <ul class="cards">
-            <li class="card">
-                <img src="./images/egorjevsk.jpg" alt="Егорьевск" class="card__image">
-                <div class="card__caption">
-                    <h2 class="card__title">Егорьевск</h2>
-                    <button class="card__like-button"></button>
-                </div>
-            </li>
-            <li class="card">
-                <img src="./images/nahodka.jpg" alt="Находка" class="card__image">
-                <div class="card__caption">
-                    <h2 class="card__title">Находка</h2>
-                    <button class="card__like-button"></button>
-                </div>
-            </li>
-            <li class="card">
-                <img src="./images/nov-svet.jpg" alt="Новый Свет" class="card__image">
-                <div class="card__caption">
-                    <h2 class="card__title">Новый Свет</h2>
-                    <button class="card__like-button"></button>
-                </div>
-            </li>
-            <li class="card">
-                <img src="./images/spb.jpg" alt="Санкт-Петербург" class="card__image">
-                <div class="card__caption">
-                    <h2 class="card__title">Санкт-Петербург</h2>
-                    <button class="card__like-button"></button>
-                </div>
-            </li>
-            <li class="card">
-                <img src="./images/pskov.jpg" alt="Псков" class="card__image">
-                <div class="card__caption">
-                    <h2 class="card__title">Псков</h2>
-                    <button class="card__like-button"></button>
-                </div>
-            </li>
-            <li class="card">
-                <img src="./images/telezkoe.jpg" alt="Телецкое озеро" class="card__image">
-                <div class="card__caption">
-                    <h2 class="card__title">Телецкое озеро</h2>
-                    <button class="card__like-button"></button>
-                </div>
-            </li>
-        </ul>
-        <footer class="footer">
-            <p class="footer__copyright">&copy;2020 Mesto Russia</p>
-        </footer>
+        <section>
+            <ul class="cards">
+                <li class="card">
+                    <img src="./images/egorjevsk.jpg" alt="Егорьевск" class="card__image">
+                    <div class="card__caption">
+                        <h2 class="card__title">Егорьевск</h2>
+                        <button class="button card__like-button" type="button"></button>
+                    </div>
+                </li>
+                <li class="card">
+                    <img src="./images/nahodka.jpg" alt="Находка" class="card__image">
+                    <div class="card__caption">
+                        <h2 class="card__title">Находка</h2>
+                        <button class="button card__like-button" type="button"></button>
+                    </div>
+                </li>
+                <li class="card">
+                    <img src="./images/nov-svet.jpg" alt="Новый Свет" class="card__image">
+                    <div class="card__caption">
+                        <h2 class="card__title">Новый Свет</h2>
+                        <button class="button card__like-button" type="button"></button>
+                    </div>
+                </li>
+                <li class="card">
+                    <img src="./images/spb.jpg" alt="Санкт-Петербург" class="card__image">
+                    <div class="card__caption">
+                        <h2 class="card__title">Санкт-Петербург</h2>
+                        <button class="button card__like-button" type="button"></button>
+                    </div>
+                </li>
+                <li class="card">
+                    <img src="./images/pskov.jpg" alt="Псков" class="card__image">
+                    <div class="card__caption">
+                        <h2 class="card__title">Псков</h2>
+                        <button class="button card__like-button" type="button"></button>
+                    </div>
+                </li>
+                <li class="card">
+                    <img src="./images/telezkoe.jpg" alt="Телецкое озеро" class="card__image">
+                    <div class="card__caption">
+                        <h2 class="card__title">Телецкое озеро</h2>
+                        <button class="button card__like-button" type="button"></button>
+                    </div>
+                </li>
+            </ul>
+        </section>
     </main>
-    <div class="popup popup_closed">
-        <form action="#" class="popup__container">
+    <footer class="footer">
+        <p class="footer__copyright">&copy;2020 Mesto Russia</p>
+    </footer>
+    <div class="popup">
+        <form name="edit" action="#" class="popup__container">
             <p class="popup__text">Редактировать профиль</p>
-            <input class="popup__input" type="text" placeholder="Жак-Ив Кусто">
-            <input class="popup__input" type="text" placeholder="Исследователь океана">
-            <button class="button popup__save-button">Сохранить</button>
-            <button class="button popup__close-button"><svg width="50" height="50"  fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M44.7661 41.5683L31.9759 28.778L44.7661 15.9878L41.5686 12.7902L28.7783 25.5805L15.9881 12.7902L12.7905 15.9878L25.5808 28.778L12.7905 41.5683L15.9881 44.7658L28.7783 31.9756L41.5686 44.7658L44.7661 41.5683Z" fill="white"/>
-                </svg>
-                </button>
+            <input name="name" class="popup__input" type="text">
+            <!--placeholder="Жак-Ив Кусто">-->
+            <input name="occupation" class="popup__input" type="text">
+            <!--placeholder="Исследователь океана">-->
+            <button type="submit" class="button popup__save-button">Сохранить</button>
+            <button class="button popup__close-button"><img src="./images/close-icon.svg" alt="закрыть"></button>
         </form>
     </div>
     <script src="./script.js"></script>

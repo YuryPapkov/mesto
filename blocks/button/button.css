@@ -4,7 +4,12 @@
     outline: none;
 }
 
+.button {
+    opacity: 1;
+    transition: opacity ease .5s;
+}
+
 .button:hover {
-    cursor: url("../../images/pointer.svg"), auto;
+    cursor: pointer;
     opacity: .6;
 }
