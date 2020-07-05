@@ -1,9 +1,3 @@
-@import url("./__avatar/profile__avatar.css");
-@import url("./__info/profile__info.css");
-@import url("./__name/profile__name.css");
-@import url("./__occupation/profile__occupation.css");
-@import url("./__edit-button/profile__edit-button.css");
-@import url("./__add-button/profile__add-button.css");
 .profile {
     padding: 40px 0 50px;
     display: grid;
