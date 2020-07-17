@@ -28,7 +28,7 @@
         </section>
         <section>
             <ul class="cards">
-                <li class="card">
+                <!--<li class="card">
                     <img src="./images/egorjevsk.jpg" alt="Егорьевск" class="card__image">
                     <div class="card__caption">
                         <h2 class="card__title">Егорьевск</h2>
@@ -70,6 +70,7 @@
                         <button class="button card__like-button" type="button"></button>
                     </div>
                 </li>
+              -->
             </ul>
         </section>
     </main>
@@ -87,6 +88,25 @@
             <button type="reset" class="button popup__close-button"><img src="./images/close-icon.svg" alt="закрыть"></button>
         </form>
     </div>
+    <div class="image-popup">
+        <div class="image-popup__container">
+            <button class="button image-popup__close-button" type="reset" onclick="closeImagePopup()"><img src="./images/close-icon.svg" alt="закрыть"></button>
+            <img src="" alt="" class="image-popup__image">
+            <p class="image-popup__subtitle"></p>
+        </div>
+    </div>
+
+    <template id="place">
+      <li class="card">
+        <img src="" alt="" class="card__image" onclick="showImagePopup()">
+        <button class="button card__delete-button" type="button" onclick="deleteCard()"></button>
+        <div class="card__caption">
+          <h2 class="card__title"></h2>
+          <button class="button card__like-button" type="button" onclick="makeDark()"></button>
+        </div>
+      </li>
+    </template>
+
     <script src="./script.js"></script>
 </body>
 
