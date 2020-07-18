@@ -28,69 +28,35 @@
         </section>
         <section>
             <ul class="cards">
-                <!--<li class="card">
-                    <img src="./images/egorjevsk.jpg" alt="Егорьевск" class="card__image">
-                    <div class="card__caption">
-                        <h2 class="card__title">Егорьевск</h2>
-                        <button class="button card__like-button" type="button"></button>
-                    </div>
-                </li>
-                <li class="card">
-                    <img src="./images/nahodka.jpg" alt="Находка" class="card__image">
-                    <div class="card__caption">
-                        <h2 class="card__title">Находка</h2>
-                        <button class="button card__like-button" type="button"></button>
-                    </div>
-                </li>
-                <li class="card">
-                    <img src="./images/nov-svet.jpg" alt="Новый Свет" class="card__image">
-                    <div class="card__caption">
-                        <h2 class="card__title">Новый Свет</h2>
-                        <button class="button card__like-button" type="button"></button>
-                    </div>
-                </li>
-                <li class="card">
-                    <img src="./images/spb.jpg" alt="Санкт-Петербург" class="card__image">
-                    <div class="card__caption">
-                        <h2 class="card__title">Санкт-Петербург</h2>
-                        <button class="button card__like-button" type="button"></button>
-                    </div>
-                </li>
-                <li class="card">
-                    <img src="./images/pskov.jpg" alt="Псков" class="card__image">
-                    <div class="card__caption">
-                        <h2 class="card__title">Псков</h2>
-                        <button class="button card__like-button" type="button"></button>
-                    </div>
-                </li>
-                <li class="card">
-                    <img src="./images/telezkoe.jpg" alt="Телецкое озеро" class="card__image">
-                    <div class="card__caption">
-                        <h2 class="card__title">Телецкое озеро</h2>
-                        <button class="button card__like-button" type="button"></button>
-                    </div>
-                </li>
-              -->
+
             </ul>
         </section>
     </main>
     <footer class="footer">
         <p class="footer__copyright">&copy;2020 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_type_edit modal-window">
         <form name="edit" action="#" class="popup__container">
             <p class="popup__text">Редактировать профиль</p>
-            <input name="name" class="popup__input" type="text">
-            <!--placeholder="Жак-Ив Кусто">-->
-            <input name="occupation" class="popup__input" type="text">
-            <!--placeholder="Исследователь океана">-->
+            <input name="name" class="popup__input popup__input_type_name" type="text">
+            <input name="occupation" class="popup__input popup__input_type_occupation" type="text">
             <button type="submit" class="button popup__save-button">Сохранить</button>
             <button type="reset" class="button popup__close-button"><img src="./images/close-icon.svg" alt="закрыть"></button>
         </form>
     </div>
-    <div class="image-popup">
+
+    <div class="popup popup_type_new-card modal-window">
+        <form name="new-card" action="#" class="popup__container">
+            <p class="popup__text">Новое место</p>
+            <input name="place" class="popup__input popup__input_type_place" type="text" placeholder="название">
+            <input name="link" class="popup__input popup__input_type_link" type="text" placeholder="ссылка на картинку">
+            <button type="submit" class="button popup__save-button">Сохранить</button>
+            <button type="reset" class="button popup__close-button"><img src="./images/close-icon.svg" alt="закрыть"></button>
+        </form>
+    </div>
+    <div class="image-popup modal-window">
         <div class="image-popup__container">
-            <button class="button image-popup__close-button" type="reset" onclick="closeImagePopup()"><img src="./images/close-icon.svg" alt="закрыть"></button>
+            <button class="button image-popup__close-button" type="reset"><img src="./images/close-icon.svg" alt="закрыть"></button>
             <img src="" alt="" class="image-popup__image">
             <p class="image-popup__subtitle"></p>
         </div>
@@ -98,11 +64,11 @@
 
     <template id="place">
       <li class="card">
-        <img src="" alt="" class="card__image" onclick="showImagePopup()">
-        <button class="button card__delete-button" type="button" onclick="deleteCard()"></button>
+        <img src="" alt="" class="card__image">
+        <button class="button card__delete-button" type="button"></button>
         <div class="card__caption">
           <h2 class="card__title"></h2>
-          <button class="button card__like-button" type="button" onclick="makeDark()"></button>
+          <button class="button card__like-button" type="button"></button>
         </div>
       </li>
     </template>
