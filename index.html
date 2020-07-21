@@ -35,30 +35,30 @@
     <footer class="footer">
         <p class="footer__copyright">&copy;2020 Mesto Russia</p>
     </footer>
-    <div class="popup popup_type_edit modal-window">
-        <form name="edit" action="#" class="popup__container">
+    <div class="popup popup_type_edit">
+        <form name="edit" action="#" class="popup__container popup__container_type_input">
             <p class="popup__text">Редактировать профиль</p>
             <input name="name" class="popup__input popup__input_type_name" type="text">
             <input name="occupation" class="popup__input popup__input_type_occupation" type="text">
             <button type="submit" class="button popup__save-button">Сохранить</button>
-            <button type="reset" class="button popup__close-button"><img src="./images/close-icon.svg" alt="закрыть"></button>
+            <button type="reset" class="button popup__close-button popup__close-button_type_input"><img src="./images/close-icon.svg" alt="закрыть"></button>
         </form>
     </div>
 
-    <div class="popup popup_type_new-card modal-window">
-        <form name="new-card" action="#" class="popup__container">
+    <div class="popup popup_type_new-card">
+        <form name="new-card" action="#" class="popup__container popup__container_type_input">
             <p class="popup__text">Новое место</p>
             <input name="place" class="popup__input popup__input_type_place" type="text" placeholder="название">
             <input name="link" class="popup__input popup__input_type_link" type="text" placeholder="ссылка на картинку">
             <button type="submit" class="button popup__save-button">Сохранить</button>
-            <button type="reset" class="button popup__close-button"><img src="./images/close-icon.svg" alt="закрыть"></button>
+            <button type="reset" class="button popup__close-button popup__close-button_type_input"><img src="./images/close-icon.svg" alt="закрыть"></button>
         </form>
     </div>
-    <div class="image-popup modal-window">
-        <div class="image-popup__container">
-            <button class="button image-popup__close-button" type="reset"><img src="./images/close-icon.svg" alt="закрыть"></button>
-            <img src="" alt="" class="image-popup__image">
-            <p class="image-popup__subtitle"></p>
+    <div class="popup popup_type_image">
+        <div class="popup__container popup__container_type_picture">
+            <button class="button popup__close-button popup__close-button_type_picture" type="reset"><img src="./images/close-icon.svg" alt="закрыть"></button>
+            <img src="" alt="" class="popup__image">
+            <p class="popup__subtitle"></p>
         </div>
     </div>
 

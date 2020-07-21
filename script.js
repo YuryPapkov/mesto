@@ -9,10 +9,10 @@ const popupNewCard = document.querySelector('.popup_type_new-card');
 const popupNewCardContainer = popupNewCard.querySelector('.popup__container');
 const popupNewCardCloseButton = popupNewCard.querySelector('.popup__close-button');
 
-const imagePopup = document.querySelector('.image-popup');
-const imagePopupImage = imagePopup.querySelector('.image-popup__image');
-const imagePopupSubtitle = imagePopup.querySelector('.image-popup__subtitle');
-const imagePopupCloseButton = imagePopup.querySelector('.image-popup__close-button');
+const popupImage = document.querySelector('.popup_type_image');
+const popupImageImage = popupImage.querySelector('.popup__image');
+const popupImageSubtitle = popupImage.querySelector('.popup__subtitle');
+const popupImageCloseButton = popupImage.querySelector('.popup__close-button');
 
 const cards = document.querySelector('.cards');
 
@@ -58,57 +58,38 @@ function addCard(name, link) {
     newCardImage.src = link;
     newCardImage.alt = name;
     newCard.querySelector('.card__title').textContent = name;
+    newCard.querySelector('.card__like-button').addEventListener('click', makeDark);
+    newCard.querySelector('.card__delete-button').addEventListener('click', deleteCard);
+    newCard.querySelector('.card__image').addEventListener('click', () => {
+        popupImageImage.setAttribute('src', '' + link);
+        popupImageSubtitle.textContent = name;
+        popupImageToggle();
+    });
+
     insertNewCard(newCard);
-    refreshCardButtons();
 }
 
 function insertNewCard(item) {
     cards.prepend(item);
 }
 
-function refreshCardButtons() {
-    const cardLikeButton = cards.querySelectorAll('.card__like-button');
-    cardLikeButton.forEach((item) => {
-        item.addEventListener('click', makeDark);
-    });
-    const cardDeleteButton = cards.querySelectorAll('.card__delete-button');
-    cardDeleteButton.forEach((item) => {
-        item.addEventListener('click', deleteCard);
-    });
-    const cardImage = cards.querySelectorAll('.card__image');
-    cardImage.forEach((item) => {
-        item.addEventListener('click', imagePopupToggle);
-    });
+
+function toggleModal(modal) {
+    modal.classList.toggle('popup_opened');
 }
 
 function popupEditToggle() {
-    if (popupEdit.classList.contains('popup_opened')) {
-        popupEdit.classList.remove('popup_opened');
-    } else {
-        popupEdit.querySelector('.popup__text').textContent = 'Редакторовать профиль';
-        nameInput.value = profileName.textContent;
-        occupationInput.value = profileOccupation.textContent;
-        popupEdit.classList.add('popup_opened');
-    }
+    nameInput.value = profileName.textContent;
+    occupationInput.value = profileOccupation.textContent;
+    toggleModal(popupEdit);
 }
 
 function popupNewCardToggle() {
-    if (popupNewCard.classList.contains('popup_opened')) {
-        popupNewCard.classList.remove('popup_opened');
-    } else {
-        popupNewCard.classList.add('popup_opened');
-    }
+    toggleModal(popupNewCard);
 }
 
-function imagePopupToggle() {
-    if (imagePopup.classList.contains('image-popup_opened')) {
-        imagePopup.classList.remove('image-popup_opened');
-    } else {
-        const clickedItem = event.target;
-        imagePopupImage.setAttribute('src', '' + clickedItem.getAttribute("src"));
-        imagePopupSubtitle.textContent = clickedItem.getAttribute("alt");
-        imagePopup.classList.add('image-popup_opened');
-    }
+function popupImageToggle() {
+    toggleModal(popupImage);
 }
 
 function formEditSubmitHandler(evt) {
@@ -126,13 +107,12 @@ function formNewCardSubmitHandler(evt) {
 
 function makeDark() {
     const clickedItem = event.target;
-    clickedItem.classList.add('card__like-button_pressed');
+    clickedItem.classList.toggle('card__like-button_pressed');
 }
 
 function deleteCard() {
     const clickedItem = event.target;
     clickedItem.parentElement.remove();
-    refreshCardButtons();
 }
 
 editButton.addEventListener('click', popupEditToggle);
@@ -140,7 +120,7 @@ addButton.addEventListener('click', popupNewCardToggle);
 
 popupEditCloseButton.addEventListener('click', popupEditToggle);
 popupNewCardCloseButton.addEventListener('click', popupNewCardToggle);
-imagePopupCloseButton.addEventListener('click', imagePopupToggle);
+popupImageCloseButton.addEventListener('click', popupImageToggle);
 
 popupEditContainer.addEventListener('submit', formEditSubmitHandler);
 popupNewCardContainer.addEventListener('submit', formNewCardSubmitHandler);

@@ -1,0 +1,16 @@
+.popup__container_type_input {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 430px;
+    background-color: white;
+    border-radius: 10px;
+    align-items: center;
+}
+
+@media(max-width:550px) {
+    .popup__container_type_input {
+        width: 76%;
+    }
+}
