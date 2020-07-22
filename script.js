@@ -58,21 +58,21 @@ function addCard(name, link) {
     newCardImage.src = link;
     newCardImage.alt = name;
     newCard.querySelector('.card__title').textContent = name;
-    newCard.querySelector('.card__like-button').addEventListener('click', makeDark);
-    newCard.querySelector('.card__delete-button').addEventListener('click', deleteCard);
-    newCard.querySelector('.card__image').addEventListener('click', () => {
+
+    function handlePreviewPicture(name, link) {
         popupImageImage.setAttribute('src', '' + link);
         popupImageSubtitle.textContent = name;
-        popupImageToggle();
-    });
-
+        toggleModal(popupImage);
+    }
+    newCard.querySelector('.card__like-button').addEventListener('click', makeDark);
+    newCard.querySelector('.card__delete-button').addEventListener('click', deleteCard);
+    newCard.querySelector('.card__image').addEventListener('click', () => handlePreviewPicture(name, link));
     insertNewCard(newCard);
 }
 
 function insertNewCard(item) {
     cards.prepend(item);
 }
-
 
 function toggleModal(modal) {
     modal.classList.toggle('popup_opened');
@@ -82,14 +82,6 @@ function popupEditToggle() {
     nameInput.value = profileName.textContent;
     occupationInput.value = profileOccupation.textContent;
     toggleModal(popupEdit);
-}
-
-function popupNewCardToggle() {
-    toggleModal(popupNewCard);
-}
-
-function popupImageToggle() {
-    toggleModal(popupImage);
 }
 
 function formEditSubmitHandler(evt) {
@@ -102,7 +94,7 @@ function formEditSubmitHandler(evt) {
 function formNewCardSubmitHandler(evt) {
     evt.preventDefault();
     addCard(placeInput.value, linkInput.value);
-    popupNewCardToggle();
+    toggleModal(popupNewCard);
 }
 
 function makeDark() {
@@ -116,11 +108,11 @@ function deleteCard() {
 }
 
 editButton.addEventListener('click', popupEditToggle);
-addButton.addEventListener('click', popupNewCardToggle);
+addButton.addEventListener('click', () => toggleModal(popupNewCard));
 
 popupEditCloseButton.addEventListener('click', popupEditToggle);
-popupNewCardCloseButton.addEventListener('click', popupNewCardToggle);
-popupImageCloseButton.addEventListener('click', popupImageToggle);
+popupNewCardCloseButton.addEventListener('click', () => toggleModal(popupNewCard));
+popupImageCloseButton.addEventListener('click', () => toggleModal(popupImage));
 
 popupEditContainer.addEventListener('submit', formEditSubmitHandler);
 popupNewCardContainer.addEventListener('submit', formNewCardSubmitHandler);

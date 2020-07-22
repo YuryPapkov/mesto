@@ -8,8 +8,4 @@
     visibility: hidden;
     opacity: 0;
     transition: opacity 1s ease, visibility 1s ease;
-    /*
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);*/
 }
