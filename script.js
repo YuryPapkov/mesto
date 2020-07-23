@@ -24,7 +24,6 @@ const occupationInput = document.querySelector('.popup__input_type_occupation');
 const placeInput = document.querySelector('.popup__input_type_place');
 const linkInput = document.querySelector('.popup__input_type_link');
 
-
 const initialCards = [{
         name: 'Архыз',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -51,6 +50,12 @@ const initialCards = [{
     }
 ];
 
+function handlePreviewPicture(name, link) {
+    popupImageImage.setAttribute('src', '' + link);
+    popupImageSubtitle.textContent = name;
+    toggleModal(popupImage);
+}
+
 function addCard(name, link) {
     const cardTemplate = document.querySelector('#place').content;
     const newCard = cardTemplate.cloneNode(true);
@@ -58,12 +63,6 @@ function addCard(name, link) {
     newCardImage.src = link;
     newCardImage.alt = name;
     newCard.querySelector('.card__title').textContent = name;
-
-    function handlePreviewPicture(name, link) {
-        popupImageImage.setAttribute('src', '' + link);
-        popupImageSubtitle.textContent = name;
-        toggleModal(popupImage);
-    }
     newCard.querySelector('.card__like-button').addEventListener('click', makeDark);
     newCard.querySelector('.card__delete-button').addEventListener('click', deleteCard);
     newCard.querySelector('.card__image').addEventListener('click', () => handlePreviewPicture(name, link));
