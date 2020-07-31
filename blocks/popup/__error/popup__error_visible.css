@@ -1,0 +1,11 @@
+.popup__error_visible {
+    width: 83%;
+    overflow: visible;
+    position: relative;
+    top: -25px;
+    z-index: 1;
+    /*padding-top: 5px;*/
+    font-size: 12px;
+    line-height: 15px;
+    color: red;
+}

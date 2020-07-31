@@ -36,20 +36,24 @@
         <p class="footer__copyright">&copy;2020 Mesto Russia</p>
     </footer>
     <div class="popup popup_type_edit">
-        <form name="edit" action="#" class="popup__container popup__container_type_input">
+        <form name="edit" action="#" class="popup__container popup__container_type_input" novalidate>
             <p class="popup__text">Редактировать профиль</p>
-            <input name="name" class="popup__input popup__input_type_name" type="text">
-            <input name="occupation" class="popup__input popup__input_type_occupation" type="text">
+            <input name="name" class="popup__input popup__input_type_name" type="text" required minlength="2" maxlength="40" autocomplete="off">
+            <span class="popup__error popup__error_type_name">444</span>
+            <input name="occupation" class="popup__input popup__input_type_occupation" type="text" required minlength="2" maxlength="200" autocomplete="off">
+            <span class="popup__error popup__error_type_occupation">333</span>
             <button type="submit" class="button popup__save-button">Сохранить</button>
             <button type="reset" class="button popup__close-button popup__close-button_type_input"><img src="./images/close-icon.svg" alt="закрыть"></button>
         </form>
     </div>
 
     <div class="popup popup_type_new-card">
-        <form name="new-card" action="#" class="popup__container popup__container_type_input">
+        <form name="new-card" action="#" class="popup__container popup__container_type_input" novalidate>
             <p class="popup__text">Новое место</p>
-            <input name="place" class="popup__input popup__input_type_place" type="text" placeholder="название">
-            <input name="link" class="popup__input popup__input_type_link" type="url" required placeholder="ссылка на картинку">
+            <input name="place" class="popup__input popup__input_type_place" type="text" placeholder="название" required minlength="1" maxlength="30" autocomplete="off">
+            <span class="popup__error popup__error_type_place">44</span>
+            <input name="link" class="popup__input popup__input_type_link" type="url" required placeholder="ссылка на картинку" required autocomplete="off">
+            <span class="popup__error popup__error_type_link">33</span>
             <button type="submit" class="button popup__save-button">Сохранить</button>
             <button type="reset" class="button popup__close-button popup__close-button_type_input"><img src="./images/close-icon.svg" alt="закрыть"></button>
         </form>
@@ -74,6 +78,7 @@
     </template>
 
     <script src="./script.js"></script>
+    <script src="./validate.js"></script>
 </body>
 
 </html>
