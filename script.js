@@ -1,6 +1,6 @@
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-
+const popup = Array.from(document.querySelectorAll('.popup'));
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupEditContainer = popupEdit.querySelector('.popup__container');
 const popupEditCloseButton = popupEdit.querySelector('.popup__close-button');
@@ -75,6 +75,18 @@ function insertNewCard(item) {
 
 function toggleModal(modal) {
     modal.classList.toggle('popup_opened');
+    escapeHandler.openedModal = modal;
+    if (modal.classList.contains('popup_opened')) {
+        document.addEventListener('keyup', escapeHandler);
+    } else {
+        document.removeEventListener('keyup', escapeHandler);
+    }
+}
+
+function escapeHandler(evt) {
+    if (evt.key === 'Escape') {
+        toggleModal(escapeHandler.openedModal);
+    }
 }
 
 function popupEditToggle() {
@@ -118,4 +130,12 @@ popupNewCardContainer.addEventListener('submit', formNewCardSubmitHandler);
 
 initialCards.forEach(function(item) {
     addCard(item.name, item.link);
+});
+//Закрытие модального окна кликом по popup
+popup.forEach((item) => {
+    item.addEventListener('click', (evt) => {
+        if (evt.target.classList.contains('popup_opened')) {
+            toggleModal(evt.target);
+        }
+    });
 });
