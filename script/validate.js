@@ -82,4 +82,5 @@ function toggleSubmitButtonState(inputList, buttonElement) {
         buttonElement.removeAttribute('disabled');
     }
 }
+
 enableValidation(validationConfig);

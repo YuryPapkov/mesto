@@ -65,8 +65,8 @@ function addCard(name, link) {
     newCard.querySelector('.card__title').textContent = name;
     newCard.querySelector('.card__like-button').addEventListener('click', makeDark);
     newCard.querySelector('.card__delete-button').addEventListener('click', deleteCard);
-    newCard.querySelector('.card__image').addEventListener('click', () => handlePreviewPicture(name, link));
-    insertNewCard(newCard);
+    newCardImage.addEventListener('click', () => handlePreviewPicture(name, link));
+    return newCard;
 }
 
 function insertNewCard(item) {
@@ -80,7 +80,15 @@ function toggleModal(modal) {
         document.addEventListener('keyup', escapeHandler);
     } else {
         document.removeEventListener('keyup', escapeHandler);
+        //очистка error-классов формы при закрытии модального окна
+        const openedForm = modal.querySelector('.popup__container');
+        clearErrors(openedForm);
     }
+}
+
+function clearErrors(form) {
+    const inputList = Array.from(form.querySelectorAll('.popup__input'));
+    inputList.forEach((item) => { hideInputError(form, item); });
 }
 
 function escapeHandler(evt) {
@@ -104,17 +112,20 @@ function formEditSubmitHandler(evt) {
 
 function formNewCardSubmitHandler(evt) {
     evt.preventDefault();
-    addCard(placeInput.value, linkInput.value);
+    const newCard = addCard(placeInput.value, linkInput.value);
+    insertNewCard(newCard);
     toggleModal(popupNewCard);
+    placeInput.value = '';
+    linkInput.value = '';
 }
 
-function makeDark() {
-    const clickedItem = event.target;
+function makeDark(evt) {
+    const clickedItem = evt.target;
     clickedItem.classList.toggle('card__like-button_pressed');
 }
 
-function deleteCard() {
-    const clickedItem = event.target;
+function deleteCard(evt) {
+    const clickedItem = evt.target;
     clickedItem.parentElement.remove();
 }
 
@@ -129,7 +140,8 @@ popupEditContainer.addEventListener('submit', formEditSubmitHandler);
 popupNewCardContainer.addEventListener('submit', formNewCardSubmitHandler);
 
 initialCards.forEach(function(item) {
-    addCard(item.name, item.link);
+    const newCard = addCard(item.name, item.link);
+    insertNewCard(newCard);
 });
 //Закрытие модального окна кликом по popup
 popup.forEach((item) => {
