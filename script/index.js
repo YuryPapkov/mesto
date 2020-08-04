@@ -82,13 +82,17 @@ function toggleModal(modal) {
         document.removeEventListener('keyup', escapeHandler);
         //очистка error-классов формы при закрытии модального окна
         const openedForm = modal.querySelector('.popup__container');
-        clearErrors(openedForm);
+        if (openedForm.classList.contains('popup__container_type_input')) {
+            clearErrors(openedForm);
+        };
     }
 }
 
 function clearErrors(form) {
     const inputList = Array.from(form.querySelectorAll('.popup__input'));
+    const submitButton = form.querySelector('.popup__save-button');
     inputList.forEach((item) => { hideInputError(form, item); });
+    toggleSubmitButtonState(inputList, submitButton);
 }
 
 function escapeHandler(evt) {
@@ -114,9 +118,9 @@ function formNewCardSubmitHandler(evt) {
     evt.preventDefault();
     const newCard = addCard(placeInput.value, linkInput.value);
     insertNewCard(newCard);
-    toggleModal(popupNewCard);
     placeInput.value = '';
     linkInput.value = '';
+    toggleModal(popupNewCard);
 }
 
 function makeDark(evt) {
