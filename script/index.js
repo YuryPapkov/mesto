@@ -50,13 +50,16 @@ const initialCards = [{
     }
 ];
 
+
+
+
 function handlePreviewPicture(name, link) {
     popupImageImage.setAttribute('src', '' + link);
     popupImageSubtitle.textContent = name;
     toggleModal(popupImage);
 }
 
-function addCard(name, link) {
+/*function addCard(name, link) {
     const cardTemplate = document.querySelector('#place').content;
     const newCard = cardTemplate.cloneNode(true);
     const newCardImage = newCard.querySelector('.card__image')
@@ -67,7 +70,7 @@ function addCard(name, link) {
     newCard.querySelector('.card__delete-button').addEventListener('click', deleteCard);
     newCardImage.addEventListener('click', () => handlePreviewPicture(name, link));
     return newCard;
-}
+}*/
 
 function insertNewCard(item) {
     cards.prepend(item);
@@ -83,18 +86,19 @@ function toggleModal(modal) {
         //очистка error-классов формы при закрытии модального окна
         const openedForm = modal.querySelector('.popup__container');
         if (openedForm.classList.contains('popup__container_type_input')) {
-            clearErrors(openedForm);
+            console.log(openedForm);
+            openedForm.validator.clearErrors();
         };
     }
 }
-
+/*
 function clearErrors(form) {
     const inputList = Array.from(form.querySelectorAll('.popup__input'));
     const submitButton = form.querySelector('.popup__save-button');
     inputList.forEach((item) => { hideInputError(form, item); });
     toggleSubmitButtonState(inputList, submitButton);
 }
-
+*/
 function escapeHandler(evt) {
     if (evt.key === 'Escape') {
         toggleModal(escapeHandler.openedModal);
@@ -116,14 +120,15 @@ function formEditSubmitHandler(evt) {
 
 function formNewCardSubmitHandler(evt) {
     evt.preventDefault();
-    const newCard = addCard(placeInput.value, linkInput.value);
-    insertNewCard(newCard);
+    const card = new Card({ name: placeInput.value, link: linkInput.value }, '#place', handlePreviewPicture);
+    const cardElement = card.renderCard();
+    insertNewCard(cardElement);
     placeInput.value = '';
     linkInput.value = '';
     toggleModal(popupNewCard);
 }
 
-function makeDark(evt) {
+/*function makeDark(evt) {
     const clickedItem = evt.target;
     clickedItem.classList.toggle('card__like-button_pressed');
 }
@@ -132,7 +137,7 @@ function deleteCard(evt) {
     const clickedItem = evt.target;
     clickedItem.parentElement.remove();
 }
-
+*/
 editButton.addEventListener('click', popupEditToggle);
 addButton.addEventListener('click', () => toggleModal(popupNewCard));
 
@@ -143,10 +148,54 @@ popupImageCloseButton.addEventListener('click', () => toggleModal(popupImage));
 popupEditContainer.addEventListener('submit', formEditSubmitHandler);
 popupNewCardContainer.addEventListener('submit', formNewCardSubmitHandler);
 
+class Card {
+    constructor(data, templateSelector, popupHandler) {
+        this._name = data.name;
+        this._link = data.link;
+        this._templateSelector = templateSelector;
+        this._popupHandler = popupHandler;
+    }
+    _getTemplate() {
+        const cardElement = document
+            .querySelector(this._templateSelector)
+            .content
+            .cloneNode(true);
+        return cardElement;
+
+    }
+    _makeDark(evt) {
+        const clickedItem = evt.target;
+        clickedItem.classList.toggle('card__like-button_pressed');
+    }
+    _deleteCard(evt) {
+        const clickedItem = evt.target;
+        clickedItem.parentElement.remove();
+    }
+
+    renderCard() {
+        this._element = this._getTemplate();
+        const newCardImage = this._element.querySelector('.card__image');
+        newCardImage.src = this._link;
+        newCardImage.alt = this._name;
+        this._element.querySelector('.card__title').textContent = this._name;
+        this._element.querySelector('.card__like-button').addEventListener('click', this._makeDark);
+        this._element.querySelector('.card__delete-button').addEventListener('click', this._deleteCard);
+        newCardImage.addEventListener('click', () => this._popupHandler(this._name, this._link));
+        return this._element;
+    }
+
+}
+
 initialCards.forEach(function(item) {
+    const card = new Card(item, '#place', handlePreviewPicture);
+    const cardElement = card.renderCard();
+    insertNewCard(cardElement);
+});
+
+/*initialCards.forEach(function(item) {
     const newCard = addCard(item.name, item.link);
     insertNewCard(newCard);
-});
+});*/
 //Закрытие модального окна кликом по popup
 popup.forEach((item) => {
     item.addEventListener('click', (evt) => {
