@@ -75,15 +75,21 @@ function insertNewCard(item) {
 function toggleModal(modal) {
     modal.classList.toggle('popup_opened');
     escapeHandler.openedModal = modal;
+    //находим форму в данном модальном окне
+    const openedContainer = modal.querySelector('.popup__container');
+    const modalContainsForm = openedContainer.classList.contains('popup__container_type_input');
     if (modal.classList.contains('popup_opened')) {
         document.addEventListener('keyup', escapeHandler);
+        if (modalContainsForm) {
+            //ставим фокус на первый инпут формы
+            setTimeout(function() { openedContainer.querySelector('.popup__input').focus(); }, 100);
+        }
     } else {
         document.removeEventListener('keyup', escapeHandler);
         //очистка error-классов формы и сброс формы при закрытии модального окна
-        const openedForm = modal.querySelector('.popup__container');
-        if (openedForm.classList.contains('popup__container_type_input')) {
-            openedForm.validator.clearErrors();
-            openedForm.reset();
+        if (modalContainsForm) {
+            openedContainer.validator.clearErrors();
+            openedContainer.reset();
         };
     }
 }
@@ -101,14 +107,12 @@ function popupEditToggle() {
 }
 
 function formEditSubmitHandler(evt) {
-    evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileOccupation.textContent = occupationInput.value;
     popupEditToggle();
 }
 
 function formNewCardSubmitHandler(evt) {
-    evt.preventDefault();
     const card = new Card({ name: placeInput.value, link: linkInput.value }, '#place', handlePreviewPicture);
     const cardElement = card.renderCard();
     insertNewCard(cardElement);

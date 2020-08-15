@@ -14,7 +14,7 @@ export default class Card {
         return cardElement;
     }
 
-    _makeDark(evt) {
+    _handleLikeButton(evt) {
         const clickedItem = evt.target;
         clickedItem.classList.toggle('card__like-button_pressed');
     }
@@ -23,16 +23,19 @@ export default class Card {
         const clickedItem = evt.target;
         clickedItem.parentElement.remove();
     }
+    _setEventListeners(cardImage) {
+        this._element.querySelector('.card__like-button').addEventListener('click', this._handleLikeButton);
+        this._element.querySelector('.card__delete-button').addEventListener('click', this._deleteCard);
+        cardImage.addEventListener('click', () => this._popupHandler(this._name, this._link));
+    }
 
     renderCard() {
         this._element = this._getTemplate();
         const newCardImage = this._element.querySelector('.card__image');
         newCardImage.src = this._link;
         newCardImage.alt = this._name;
+        this._setEventListeners(newCardImage);
         this._element.querySelector('.card__title').textContent = this._name;
-        this._element.querySelector('.card__like-button').addEventListener('click', this._makeDark);
-        this._element.querySelector('.card__delete-button').addEventListener('click', this._deleteCard);
-        newCardImage.addEventListener('click', () => this._popupHandler(this._name, this._link));
         return this._element;
     }
 }
