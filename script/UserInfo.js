@@ -9,14 +9,12 @@ export default class UserInfo {
     }
     getUserInfo() {
         const userData = {};
-        //console.log(this._nameSelector);
-        //console.log(document.querySelector(this._nameSelector));
         userData.name = this._name.textContent;
         userData.occupation = this._occupation.textContent;
         return userData;
     }
     setUserInfo(data) {
-        this._name.textContent = data[0];
-        this._occupation.textContent = data[1];
+        this._name.textContent = data.name;
+        this._occupation.textContent = data.occupation;
     }
 }

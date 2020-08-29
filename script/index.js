@@ -17,24 +17,8 @@ const validationConfig = {
 
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-//const popup = Array.from(document.querySelectorAll('.popup'));
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupEditContainer = popupEdit.querySelector('.popup__container');
-//const popupEditCloseButton = popupEdit.querySelector('.popup__close-button');
-
-//const popupNewCard = document.querySelector('.popup_type_new-card');
-//const popupNewCardContainer = popupNewCard.querySelector('.popup__container');
-//const popupNewCardCloseButton = popupNewCard.querySelector('.popup__close-button');
-
-//const popupImage = document.querySelector('.popup_type_image');
-//const popupImageImage = popupImage.querySelector('.popup__image');
-//const popupImageSubtitle = popupImage.querySelector('.popup__subtitle');
-//const popupImageCloseButton = popupImage.querySelector('.popup__close-button');
-
-//const cards = document.querySelector('.cards');
-
-//const profileName = document.querySelector('.profile__name');
-//const profileOccupation = document.querySelector('.profile__occupation');
 
 const nameInput = document.querySelector('.popup__input_type_name');
 const occupationInput = document.querySelector('.popup__input_type_occupation');
@@ -74,22 +58,18 @@ function handlePreviewPicture(name, link) {
 }
 
 function formEditSubmitHandler(data) {
-    console.log(data);
     user.setUserInfo(data);
     this.close();
 }
 
 function formNewCardSubmitHandler(data) {
-    const card = new Card({ name: data[0], link: data[1] }, '#place', handlePreviewPicture);
+    const card = new Card({ name: data.place, link: data.link }, '#place', handlePreviewPicture);
     const cardElement = card.renderCard();
     cardsGrid.insertItem(cardElement);
     placeInput.value = '';
     linkInput.value = '';
     this.close();
 }
-
-editButton.addEventListener('click', openEditModal);
-addButton.addEventListener('click', openNewCardModal);
 
 function openEditModal() {
     const editModal = new PopupWithForm('.popup_type_edit', formEditSubmitHandler);
@@ -124,3 +104,5 @@ formList.forEach((item) => {
     validator.enableValidation();
     item.validator = validator;
 });
+editButton.addEventListener('click', openEditModal);
+addButton.addEventListener('click', openNewCardModal);

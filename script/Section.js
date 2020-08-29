@@ -9,7 +9,6 @@ export default class Section {
     renderItems() {
             this._renderedItems.forEach(item => {
                 const element = this._renderer(item);
-                //this.insertItem(element);
             });
         }
         //функция, которая добавляет DOM-элемент в контейнер

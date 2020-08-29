@@ -12,9 +12,7 @@ export default class FormValidator {
     enableValidation() {
         this._getInputList();
         this._getSubmitButtonElement();
-        this._formElement.addEventListener('submit', (evt) => { evt.preventDefault() }); //То есть по сути
-        //этой строчкой мы сокращаем код, избавляясь от прописывания preventDefault в index.js для
-        //каждого обработчика сабмита? Но почему именно перед _setEventListeners?
+        this._formElement.addEventListener('submit', (evt) => { evt.preventDefault() });
         this._setEventListeners();
     }
 
