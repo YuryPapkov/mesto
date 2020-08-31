@@ -20,6 +20,9 @@ visibility  и opacity с применением transition.
 7 спринт.
 Рефакторинг кода JS.
 Выделены классы Card и FormValidator. Реализован экспорт и импорт классов.
+8 спринт.
+Выделены классы Popup с дочерними PopupWithForm и PopupWithImage, Section и UserInfo.
+Настроена сборка проекта при помощи Webpack.
 
 
 

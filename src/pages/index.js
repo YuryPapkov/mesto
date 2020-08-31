@@ -51,13 +51,34 @@ const initialCards = [{
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
 ];
+//создаем экземпляры классов
 const user = new UserInfo({ nameSelector: '.profile__name', occupationSelector: '.profile__occupation' });
+const imagePopup = new PopupWithImage('.popup_type_image');
+const editModal = new PopupWithForm('.popup_type_edit', formEditSubmitHandler);
+const newCardModal = new PopupWithForm('.popup_type_new-card', formNewCardSubmitHandler);
 
+//навешиваем слушатели
+imagePopup.setEventListeners();
+editModal.setEventListeners();
+newCardModal.setEventListeners();
+
+
+//функции открытия модальных окон
 function handlePreviewPicture(name, link) {
-    const imagePopup = new PopupWithImage('.popup_type_image');
     imagePopup.open(name, link);
 }
 
+function openEditModal() {
+    editModal.open();
+    const userData = user.getUserInfo();
+    nameInput.value = userData.name;
+    occupationInput.value = userData.occupation;
+    setTimeout(function() {
+        popupEditContainer.querySelector('.popup__input').focus();
+    }, 100);
+}
+
+//функции - обработчики сабмитов
 function formEditSubmitHandler(data) {
     user.setUserInfo(data);
     this.close();
@@ -72,38 +93,25 @@ function formNewCardSubmitHandler(data) {
     this.close();
 }
 
-function openEditModal() {
-    const editModal = new PopupWithForm('.popup_type_edit', formEditSubmitHandler);
-    editModal.open();
-    const userData = user.getUserInfo();
-    nameInput.value = userData.name;
-    occupationInput.value = userData.occupation;
-    setTimeout(function() {
-        popupEditContainer.querySelector('.popup__input').focus();
-    }, 100);
-}
-
-function openNewCardModal() {
-    const newCardModal = new PopupWithForm('.popup_type_new-card', formNewCardSubmitHandler);
-    newCardModal.open();
-}
-
+//создание первоначальной сетки с карточками
 const cardsGrid = new Section({
     items: initialCards,
     renderer: (item) => {
         const card = new Card(item, '#place', handlePreviewPicture);
         const cardElement = card.renderCard();
         cardsGrid.insertItem(cardElement);
-        //return cardElement;
     }
 }, '.cards');
 cardsGrid.renderItems();
 
+//создание экземпляров класса FormValidator на каждой форме и привязка к форме
 const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
 formList.forEach((item) => {
     const validator = new FormValidator(validationConfig, item);
     validator.enableValidation();
     item.validator = validator;
 });
+
+//установка слушателей на кнопки редактирования профиля и добавления карточки
 editButton.addEventListener('click', openEditModal);
-addButton.addEventListener('click', openNewCardModal);
+addButton.addEventListener('click', () => { newCardModal.open() });
