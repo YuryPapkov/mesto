@@ -28,6 +28,7 @@ const occupationInput = document.querySelector('.popup__input_type_occupation');
 const placeInput = document.querySelector('.popup__input_type_place');
 const linkInput = document.querySelector('.popup__input_type_link');
 let userID = 0;
+const message = document.querySelector('.popup__message');
 
 const apiConfig = {
     userURL: 'https://mesto.nomoreparties.co/v1/cohort-15/users/me',
@@ -44,17 +45,28 @@ const confirmModal = new PopupWithForm('.popup_type_confirm', formConfirmSubmitH
 const avatarModal = new PopupWithForm('.popup_type_avatar', formAvatarSubmitHandler);
 const api = new Api(apiConfig);
 
+//навешиваем слушатели
+imagePopup.setEventListeners();
+editModal.setEventListeners();
+newCardModal.setEventListeners();
+confirmModal.setEventListeners();
+avatarModal.setEventListeners();
+
 //обработчик обновления аватара
 function formAvatarSubmitHandler(data) {
     avatarModal._submitButton.textContent = 'Сохранение...';
     console.log(data);
     api.avatarUpload(data)
         .then((res) => {
-            console.log(res);
+            //console.log(res);
             userAvatar.src = data.link;
             avatarModal._submitButton.textContent = 'Сохранить';
-            this.close();
         })
+        .catch(err => {
+            showErrorMessage(err);
+            console.log(err);
+        })
+    this.close();
 }
 //обработчик удаления карточки - открыть попап подтверждения
 function deleteCardHandler(id, evt) {
@@ -66,7 +78,11 @@ function deleteCardHandler(id, evt) {
 }
 //обработчик подтверждения - удаление карточки
 function formConfirmSubmitHandler() {
-    api.deleteCard(confirmModal.cardToDeleteID);
+    api.deleteCard(confirmModal.cardToDeleteID)
+        .catch(err => {
+            showErrorMessage(err);
+            console.log(err);
+        });
     confirmModal.cardToDeleteElement.remove();
     this.close();
 
@@ -77,25 +93,21 @@ function likeHandler(id, evt) {
     if (evt.target.classList.contains('card__like-button_pressed')) {
         api.dislikeCard(id)
             .then((res) => {
-                return res.json();
-            })
-            .then((res) => {
                 evt.target.nextElementSibling.textContent = res.likes.length;
                 evt.target.classList.remove('card__like-button_pressed');
             })
             .catch((err) => {
+                showErrorMessage(err);
                 console.log(err);
             })
     } else {
         api.likeCard(id)
             .then((res) => {
-                return res.json();
-            })
-            .then((res) => {
                 evt.target.nextElementSibling.textContent = res.likes.length;
                 evt.target.classList.add('card__like-button_pressed');
             })
             .catch((err) => {
+                showErrorMessage(err);
                 console.log(err);
             })
     }
@@ -109,17 +121,13 @@ userFromServer
         userAvatar.src = data.avatar;
         userID = data._id;
     })
-    .catch(() => {
-        console.log('error downloading profile data');
+    .catch((err) => {
+        showErrorMessage(err);
+        console.log(err);
     })
 
 
-//навешиваем слушатели
-imagePopup.setEventListeners();
-editModal.setEventListeners();
-newCardModal.setEventListeners();
-confirmModal.setEventListeners();
-avatarModal.setEventListeners();
+
 
 //функции открытия модальных окон
 function handlePreviewPicture(name, link) {
@@ -146,6 +154,7 @@ function formEditSubmitHandler(data) {
             editModal._submitButton.textContent = 'Сохранить'
         })
         .catch((err) => {
+            showErrorMessage(err);
             console.log(err);
         })
     this.close();
@@ -172,7 +181,8 @@ function formNewCardSubmitHandler(data) {
             newCardModal._submitButton.textContent = 'Сохранить'
         })
         .catch((err) => {
-            console.log('сбой загрузки новой карточки');
+            showErrorMessage(err);
+            console.log(err);
         })
     placeInput.value = '';
     linkInput.value = '';
@@ -195,8 +205,9 @@ cardsFromServer
         cardsGrid.renderItems();
     })
 
-.catch(() => {
-    console.log('ошибка загрузки карточек');
+.catch((err) => {
+    showErrorMessage(err);
+    console.log(err);
 })
 
 //создание экземпляров класса FormValidator на каждой форме и привязка к форме
@@ -211,3 +222,16 @@ formList.forEach((item) => {
 editButton.addEventListener('click', openEditModal);
 addButton.addEventListener('click', () => { newCardModal.open() });
 userAvatar.addEventListener('click', () => { avatarModal.open() });
+
+//функция показа ошибки связи с сервером
+function showErrorMessage(text) {
+    message.textContent = text;
+    message.parentElement.classList.add('popup_type_error');
+    setTimeout(() => {
+        message.textContent = '';
+    }, 2000);
+    setTimeout(() => {
+        message.parentElement.classList.remove('popup_type_error');
+    }, 2500);
+
+}

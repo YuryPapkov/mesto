@@ -1,0 +1,11 @@
+.popup_type_error {
+    top: 100px;
+    left: 200px;
+    visibility: visible;
+    opacity: 1;
+    width: 600px;
+    height: 50px;
+    background-color: brown;
+    color: white;
+    border-radius: 5px;
+}
