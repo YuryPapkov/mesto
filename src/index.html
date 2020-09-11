@@ -58,6 +58,24 @@
             <button type="reset" class="button popup__close-button popup__close-button_type_input"><img src="./images/close-icon.svg" alt="закрыть"></button>
         </form>
     </div>
+
+    <div class="popup popup_type_confirm">
+        <form name="new-card" action="#" class="popup__container popup__container_type_input" novalidate>
+            <p class="popup__text">Вы уверены?</p>
+            <button type="submit" class="button popup__save-button">Да</button>
+            <button type="reset" class="button popup__close-button popup__close-button_type_input"><img src="./images/close-icon.svg" alt="закрыть"></button>
+        </form>
+    </div>
+    <div class="popup popup_type_avatar">
+        <form name="avatar" action="#" class="popup__container popup__container_type_input" novalidate>
+            <p class="popup__text">Обновить аватар</p>
+            <input name="link" class="popup__input popup__input_type_link" type="url" required placeholder="ссылка на картинку" required autocomplete="off">
+            <span class="popup__error popup__error_type_link"></span>
+            <button type="submit" class="button popup__save-button">Сохранить</button>
+            <button type="reset" class="button popup__close-button popup__close-button_type_input"><img src="./images/close-icon.svg" alt="закрыть"></button>
+        </form>
+    </div>
+
     <div class="popup popup_type_image">
         <div class="popup__container popup__container_type_picture">
             <button class="button popup__close-button popup__close-button_type_picture" type="reset"><img src="./images/close-icon.svg" alt="закрыть"></button>
@@ -72,7 +90,11 @@
         <button class="button card__delete-button" type="button"></button>
         <div class="card__caption">
           <h2 class="card__title"></h2>
-          <button class="button card__like-button" type="button"></button>
+          <div class="card__like-container">
+            <button class="button card__like-button" type="button"></button>
+            <p class="card__like-counter">12512</p>
+          </div>
+
         </div>
       </li>
     </template>
