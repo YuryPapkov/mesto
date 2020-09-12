@@ -58,7 +58,6 @@ function formAvatarSubmitHandler(data) {
     console.log(data);
     api.avatarUpload(data)
         .then((res) => {
-            //console.log(res);
             userAvatar.src = data.link;
             avatarModal._submitButton.textContent = 'Сохранить';
         })
@@ -70,11 +69,9 @@ function formAvatarSubmitHandler(data) {
 }
 //обработчик удаления карточки - открыть попап подтверждения
 function deleteCardHandler(id, evt) {
-    console.log(evt.target.parentElement);
     confirmModal.cardToDeleteID = id;
     confirmModal.cardToDeleteElement = evt.target.parentElement;
     confirmModal.open();
-    console.log(confirmModal);
 }
 //обработчик подтверждения - удаление карточки
 function formConfirmSubmitHandler() {
@@ -151,12 +148,12 @@ function formEditSubmitHandler(data) {
     api.profileDataUpload(data.name, data.occupation)
         .then((res) => {
             console.log('загрузилось ок');
-            editModal._submitButton.textContent = 'Сохранить'
         })
         .catch((err) => {
             showErrorMessage(err);
             console.log(err);
         })
+    editModal._submitButton.textContent = 'Сохранить'
     this.close();
 }
 
@@ -175,7 +172,6 @@ function formNewCardSubmitHandler(data) {
         likeHandler);
     const cardElement = card.renderCard();
     cardsGrid.insertItem(cardElement);
-    console.log(data.place, data.link);
     api.newCardUpload(data.place, data.link)
         .then((res) => {
             newCardModal._submitButton.textContent = 'Сохранить'
@@ -226,12 +222,12 @@ userAvatar.addEventListener('click', () => { avatarModal.open() });
 //функция показа ошибки связи с сервером
 function showErrorMessage(text) {
     message.textContent = text;
-    message.parentElement.classList.add('popup_type_error');
+    message.parentElement.classList.add('popup_opened');
     setTimeout(() => {
         message.textContent = '';
     }, 2000);
     setTimeout(() => {
-        message.parentElement.classList.remove('popup_type_error');
-    }, 2500);
+        message.parentElement.classList.remove('popup_opened');
+    }, 2200);
 
 }
