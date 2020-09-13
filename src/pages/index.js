@@ -27,7 +27,7 @@ const nameInput = document.querySelector('.popup__input_type_name');
 const occupationInput = document.querySelector('.popup__input_type_occupation');
 const placeInput = document.querySelector('.popup__input_type_place');
 const linkInput = document.querySelector('.popup__input_type_link');
-let userID = 0;
+let userData = {};
 const message = document.querySelector('.popup__message');
 
 const apiConfig = {
@@ -45,12 +45,61 @@ const confirmModal = new PopupWithForm('.popup_type_confirm', formConfirmSubmitH
 const avatarModal = new PopupWithForm('.popup_type_avatar', formAvatarSubmitHandler);
 const api = new Api(apiConfig);
 
-//навешиваем слушатели
-imagePopup.setEventListeners();
-editModal.setEventListeners();
-newCardModal.setEventListeners();
-confirmModal.setEventListeners();
-avatarModal.setEventListeners();
+let cardsGrid = {};
+const userFromServer = api.userDownload();
+const cardsFromServer = api.cardsDownload();
+
+const dataDownload = [userFromServer, cardsFromServer];
+Promise.all(dataDownload)
+    .then((data) => {
+        userData = data[0];
+        const cardsData = data[1];
+        user.setUserInfo({ "name": userData.name, "occupation": userData.about });
+        userAvatar.src = userData.avatar;
+        cardsGrid = new Section({
+            items: cardsData,
+            renderer: (item) => {
+                const card = new Card(item, '#place', userData._id, handlePreviewPicture, deleteCardHandler, likeHandler);
+                const cardElement = card.renderCard();
+                cardsGrid.insertItem(cardElement);
+            }
+        }, '.cards');
+        cardsGrid.renderItems();
+
+
+
+        //установка слушателей на модальные окна
+        imagePopup.setEventListeners();
+        editModal.setEventListeners();
+        newCardModal.setEventListeners();
+        confirmModal.setEventListeners();
+        avatarModal.setEventListeners();
+
+        //создание экземпляров класса FormValidator на каждой форме и привязка к форме
+        const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+        formList.forEach((item) => {
+            const validator = new FormValidator(validationConfig, item);
+            validator.enableValidation();
+            item.validator = validator;
+        });
+        //установка слушателей на кнопки редактирования профиля и добавления карточки
+        editButton.addEventListener('click', openEditModal);
+        addButton.addEventListener('click', () => {
+            console.log(newCardModal);
+            newCardModal._submitButton.disabled = true;
+            newCardModal._submitButton.classList.add('popup__save-button_disabled');
+            newCardModal.open()
+        });
+        userAvatar.addEventListener('click', () => {
+            avatarModal._submitButton.disabled = true;
+            avatarModal._submitButton.classList.add('popup__save-button_disabled');
+            avatarModal.open()
+        });
+    })
+    .catch((err) => {
+        showErrorMessage(err);
+        console.log(err);
+    });
 
 //обработчик обновления аватара
 function formAvatarSubmitHandler(data) {
@@ -58,14 +107,18 @@ function formAvatarSubmitHandler(data) {
     console.log(data);
     api.avatarUpload(data)
         .then((res) => {
-            userAvatar.src = data.link;
-            avatarModal._submitButton.textContent = 'Сохранить';
+            console.log(res);
+            userAvatar.src = res.avatar;
+            this.close();
         })
         .catch(err => {
             showErrorMessage(err);
             console.log(err);
         })
-    this.close();
+        .finally(() => {
+            avatarModal._submitButton.textContent = 'Сохранить';
+        })
+
 }
 //обработчик удаления карточки - открыть попап подтверждения
 function deleteCardHandler(id, evt) {
@@ -76,12 +129,15 @@ function deleteCardHandler(id, evt) {
 //обработчик подтверждения - удаление карточки
 function formConfirmSubmitHandler() {
     api.deleteCard(confirmModal.cardToDeleteID)
+        .then(res => {
+            console.log(res);
+            confirmModal.cardToDeleteElement.remove();
+            this.close();
+        })
         .catch(err => {
             showErrorMessage(err);
             console.log(err);
         });
-    confirmModal.cardToDeleteElement.remove();
-    this.close();
 
 }
 
@@ -110,22 +166,6 @@ function likeHandler(id, evt) {
     }
 }
 
-//загрузка профиля пользователя с сервера
-const userFromServer = api.userDownload();
-userFromServer
-    .then((data) => {
-        user.setUserInfo({ "name": data.name, "occupation": data.about });
-        userAvatar.src = data.avatar;
-        userID = data._id;
-    })
-    .catch((err) => {
-        showErrorMessage(err);
-        console.log(err);
-    })
-
-
-
-
 //функции открытия модальных окон
 function handlePreviewPicture(name, link) {
     imagePopup.open(name, link);
@@ -143,81 +183,53 @@ function openEditModal() {
 
 //функции - обработчики сабмитов
 function formEditSubmitHandler(data) {
-    user.setUserInfo(data);
     editModal._submitButton.textContent = 'Сохранение...'
     api.profileDataUpload(data.name, data.occupation)
         .then((res) => {
-            console.log('загрузилось ок');
+            console.log(res);
+            user.setUserInfo({ name: res.name, occupation: res.about });
+            this.close();
         })
         .catch((err) => {
             showErrorMessage(err);
             console.log(err);
         })
-    editModal._submitButton.textContent = 'Сохранить'
-    this.close();
+        .finally(() => {
+            editModal._submitButton.textContent = 'Сохранить'
+        })
 }
 
 function formNewCardSubmitHandler(data) {
     newCardModal._submitButton.textContent = 'Сохранение...'
-    const card = new Card({
-            name: data.place,
-            link: data.link,
-            owner: { _id: userID },
-            likes: []
-        },
-        '#place',
-        userID,
-        handlePreviewPicture,
-        deleteCardHandler,
-        likeHandler);
-    const cardElement = card.renderCard();
-    cardsGrid.insertItem(cardElement);
     api.newCardUpload(data.place, data.link)
         .then((res) => {
-            newCardModal._submitButton.textContent = 'Сохранить'
+            console.log(res);
+            const card = new Card({
+                    name: res.name,
+                    link: res.link,
+                    owner: res.owner,
+                    likes: res.likes,
+                    _id: res._id
+                },
+                '#place',
+                userData._id,
+                handlePreviewPicture,
+                deleteCardHandler,
+                likeHandler);
+            const cardElement = card.renderCard();
+            cardsGrid.insertItemToTheTop(cardElement);
+            this.close();
         })
         .catch((err) => {
             showErrorMessage(err);
             console.log(err);
         })
+        .finally(() => {
+            newCardModal._submitButton.textContent = 'Сохранить';
+        })
     placeInput.value = '';
     linkInput.value = '';
-    this.close();
 }
-
-//создание первоначальной сетки с карточками
-let cardsGrid = {};
-const cardsFromServer = api.cardsDownload();
-cardsFromServer
-    .then((data) => {
-        cardsGrid = new Section({
-            items: data,
-            renderer: (item) => {
-                const card = new Card(item, '#place', userID, handlePreviewPicture, deleteCardHandler, likeHandler);
-                const cardElement = card.renderCard();
-                cardsGrid.insertItem(cardElement);
-            }
-        }, '.cards');
-        cardsGrid.renderItems();
-    })
-
-.catch((err) => {
-    showErrorMessage(err);
-    console.log(err);
-})
-
-//создание экземпляров класса FormValidator на каждой форме и привязка к форме
-const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
-formList.forEach((item) => {
-    const validator = new FormValidator(validationConfig, item);
-    validator.enableValidation();
-    item.validator = validator;
-});
-
-//установка слушателей на кнопки редактирования профиля и добавления карточки
-editButton.addEventListener('click', openEditModal);
-addButton.addEventListener('click', () => { newCardModal.open() });
-userAvatar.addEventListener('click', () => { avatarModal.open() });
 
 //функция показа ошибки связи с сервером
 function showErrorMessage(text) {

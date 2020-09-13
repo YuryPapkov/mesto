@@ -84,6 +84,7 @@ export default class Api {
                 }
             })
     }
+
     deleteCard(id) {
         const cardDeleteURL = (this._cardsURL + `/${id}`);
         return fetch(cardDeleteURL, {

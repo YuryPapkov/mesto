@@ -14,5 +14,8 @@ export default class Section {
     insertItem(element) {
         this._container.append(element);
     }
+    insertItemToTheTop(element) {
+        this._container.prepend(element);
+    }
 
 }
